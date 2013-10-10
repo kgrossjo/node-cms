@@ -5,6 +5,7 @@
     <link rel='stylesheet' href='/stylesheets/style.css' />
   </head>
   <body>
+    <% console.log(article); %>
     <h1><%= title %></h1>
     <% if (error) { %>
       <div class='error'>
@@ -12,11 +13,14 @@
       </div>
     <% } %>
     <form action='/save' method="post">
+      <input type="hidden" name="id" value="<%= article.id %>"/>
       <dl>
 	<dt>Title</dt>
-	<dd><input type="text" name="title" size="80" /></dd>
+	<dd><input type="text" name="title" size="80" value="<%= article.title %>" /></dd>
 	<dt>Content</dt>
-	<dd><textarea name="body" cols="80" rows="40"></textarea></dd>
+	<dd>
+          <textarea name="body" cols="80" rows="40"><%= article.body %></textarea>
+        </dd>
 	<dt>Action</dt>
 	<dd><button type="submit">Go</button></dd>
       </dl>
