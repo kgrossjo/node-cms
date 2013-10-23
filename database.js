@@ -10,30 +10,32 @@ var pool = mysql.createPool({
     supportBigNumbers: true,
 });
 
+
 // Get a connection from the pool, execute `sql` in it
 // with the given `bindings`.  Invoke `cb(true)` on error,
 // invoke `cb(false, results)` on success.  Here,
 // `results` is an array of results from the query.
 function with_connection(sql, bindings, cb) {
-    pool.getConnection(function(err, conn) {
-	if (err) {
-	    conn.release();
-	    console.log("Error in with_connection (getConnection): " + JSON.stringify(err));
-	    cb(true);
-	    return;
-	}
-	conn.query(sql, bindings, function(err, results) {
-	    if (err) {
-	        conn.release();
-		console.log("Error in with_connection (query): " + JSON.stringify(err));
-		cb(true);
-		return;
-	    }
-            conn.release();
-            console.log("with_connection results: " + JSON.stringify(results));
-	    cb(false, results);
-	});
-    });
+
+    function getConnectionCb(err, conn) {
+        if (err) {
+            console.log("Error in with_connection/getConnectionCb: " + JSON.stringify(err));
+            cb(true);
+            return;
+        }
+        conn.query(sql, bindings, queryCb);
+    }
+
+    function queryCb(err, results) {
+        if (err) {
+            console.log("Error in with_connection/queryCb: " + JSON.stringify(err));
+            cb(true);
+            return;
+        }
+        cb(false, results);
+    }
+
+    pool.getConnection(getConnectionCb);
 }
 
 // cb - function(is_err, results)
@@ -68,12 +70,27 @@ exports.saveArticle = function(article, cb) {
 
 function save_new_article(article, cb) {
     var sql = "INSERT INTO articles(title,body) values (?,?)";
-    with_connection(sql, [article.title, article.body], cb);
+    function after_insert(err, results) {
+        if (err) {
+            cb(err);
+        } else {
+            article.id = results.insertId;
+            cb(false, article);
+        }
+    }
+    with_connection(sql, [article.title, article.body], after_insert);
 }
 
 function save_existing_article(article, cb) {
     var sql = "UPDATE articles SET title=?, body=? WHERE id=?";
-    with_connection(sql, [article.title, article.body, article.id], cb);
+    function after_insert(err, results) {
+        if (err) {
+            cb(err);
+        } else {
+            cb(false, article);
+        }
+    }
+    with_connection(sql, [article.title, article.body, article.id], after_insert);
 }
-    
+
 
