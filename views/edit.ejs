@@ -1,28 +1,26 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title><%= title %></title>
-    <link rel='stylesheet' href='/stylesheets/style.css' />
-  </head>
+  <% include inc/header.ejs %>
   <body>
-    <% console.log(article); %>
     <h1><%= title %></h1>
+    <% include inc/nav.ejs %>
     <% if (error) { %>
       <div class='error'>
 	<%= error %>
       </div>
     <% } %>
-    <form action='/save' method="post">
-      <input type="hidden" name="id" value="<%= article.id %>"/>
+    <form action='/save' method="post" class="form-horizontal" role="form">
+      <input type="hidden" name="id" value="<%= (article && article.id) || '' %>"/>
       <dl>
 	<dt>Title</dt>
-	<dd><input type="text" name="title" size="80" value="<%= article.title %>" /></dd>
+	<dd><input type="text" name="title" value="<%= (article && article.title) || '' %>"
+                   class="form-control"/></dd>
 	<dt>Content</dt>
 	<dd>
-          <textarea name="body" cols="80" rows="40"><%= article.body %></textarea>
+          <textarea name="body" rows="25" data-provide="markdown"><%= (article && article.body) || '' %></textarea>
         </dd>
 	<dt>Action</dt>
-	<dd><button type="submit">Go</button></dd>
+	<dd><button type="submit" class="btn btn-default">Go</button></dd>
       </dl>
     </form>
   </body>
