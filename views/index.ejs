@@ -1,12 +1,9 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title><%= title %></title>
-    <link rel='stylesheet' href='/stylesheets/style.css' />
-  </head>
+  <% include inc/header.ejs %>
   <body>
     <h1><%= title %></h1>
-    <p>Welcome to <%= title %></p>
+    <% include inc/nav.ejs %>
     <ul>
       <li><a href="/new">Create new article</a></li>
       <li><a href="/articles">List articles</a></li>
