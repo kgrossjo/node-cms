@@ -38,11 +38,15 @@ function with_connection(sql, bindings, cb) {
     pool.getConnection(getConnectionCb);
 }
 
+function now() {
+    return (new Date()).getTime();
+}
+
 // cb - function(is_err, results)
 //      if is_err is true, then the second argument is ignored
 //      if is_err is false, then the second argument is the list of results.
 exports.getArticles = function(cb) {
-    var sql = "SELECT id,title FROM articles ORDER BY id DESC";
+    var sql = "SELECT id,title,timestamp FROM articles ORDER BY id DESC";
     with_connection(sql, [], cb);
 };
 
@@ -62,14 +66,14 @@ exports.getArticle = function(id, cb) {
 
 exports.saveArticle = function(article, cb) {
     if (article.id) {
-	save_existing_article(article, cb);
+        save_existing_article(article, cb);
     } else {
-	save_new_article(article, cb);
+        save_new_article(article, cb);
     }
 }
 
 function save_new_article(article, cb) {
-    var sql = "INSERT INTO articles(title,body) values (?,?)";
+    var sql = "INSERT INTO articles(title,body,timestamp) values (?,?,?)";
     function after_insert(err, results) {
         if (err) {
             cb(err);
@@ -78,11 +82,14 @@ function save_new_article(article, cb) {
             cb(false, article);
         }
     }
-    with_connection(sql, [article.title, article.body], after_insert);
+    with_connection(sql, [article.title, article.body, now()], after_insert);
 }
 
 function save_existing_article(article, cb) {
-    var sql = "UPDATE articles SET title=?, body=? WHERE id=?";
+    var sql = "UPDATE articles SET title=?, body=?, timestamp=? WHERE id=?";
+    var ts = now();
+    console.log("save_existing_article: sql=" + sql);
+    console.log("article=" + JSON.stringify(article));
     function after_insert(err, results) {
         if (err) {
             cb(err);
@@ -90,7 +97,7 @@ function save_existing_article(article, cb) {
             cb(false, article);
         }
     }
-    with_connection(sql, [article.title, article.body, article.id], after_insert);
+    with_connection(sql, [article.title, article.body, ts, article.id], after_insert);
 }
 
 

@@ -4,6 +4,7 @@
  */
 
 var express = require('express');
+var whiskers = require('whiskers');
 var routes = require('./routes');
 var user = require('./routes/user');
 var article = require('./routes/article');
@@ -16,7 +17,6 @@ var app = express();
 // all environments
 app.set('port', process.env.PORT || 3333);
 app.set('views', __dirname + '/views');
-app.set('view engine', 'ejs');
 app.use(express.favicon());
 app.use(express.logger('dev'));
 app.use(express.bodyParser());

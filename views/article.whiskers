@@ -1,0 +1,21 @@
+{if error}
+<div class='error'>
+    <%= error %>
+</div>
+{/if}
+<table class="table table-hover">
+    <tr>
+        <th class="text-right">ID</th>
+        <th>Title</th>
+        <th>Timestamp</th>
+    </tr>
+    {for article in articles}
+    <tr>
+        <td class="text-right">
+            <a href="/edit/{article.id}">{article.id}</a>
+        </td>
+        <td>{article.title}</td>
+        <td>{article.formattedTimestamp}</td>
+    </tr>
+    {/for}
+</table>

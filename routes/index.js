@@ -4,7 +4,11 @@
  */
 
 exports.index = function(req, res){
-    res.render('index', {
-        title: 'The Simple CMS', currenttab: '/',
+    res.render('layout.whiskers', {
+        title: 'The Simple CMS',
+        currenttab: '/',
+        partials: {
+            'body': 'index.whiskers'
+        }
     });
 };
