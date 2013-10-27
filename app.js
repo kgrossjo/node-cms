@@ -8,6 +8,7 @@ var whiskers = require('whiskers');
 var routes = require('./routes');
 var user = require('./routes/user');
 var article = require('./routes/article');
+var frontend = require('./routes/frontend');
 var rest = require('./routes/rest');
 var http = require('http');
 var path = require('path');
@@ -37,6 +38,8 @@ app.get('/articles', article.index);
 app.get('/new', article.edit);
 app.get('/edit/:id', article.edit);
 app.post('/save', article.save);
+
+app.get('/frontend', frontend.index);
 
 app.get('/rest/articles', rest.articles);
 app.post('/rest/article/new', rest.saveArticle);

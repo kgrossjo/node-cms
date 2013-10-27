@@ -50,6 +50,13 @@ exports.getArticles = function(cb) {
     with_connection(sql, [], cb);
 };
 
+exports.getArticlesForFrontpage = function(cb) {
+    "use strict";
+    var sql = "SELECT id, title, timestamp, left(body, 150) AS teaser FROM articles ORDER BY id DESC LIMIT 90";
+    with_connection(sql, [], cb);
+}
+
+
 exports.getArticle = function(id, cb) {
     var sql = "SELECT id,title,body FROM articles WHERE id = ?";
     with_connection(sql, [id], function (err, results) {

@@ -6,10 +6,13 @@
         "start": "node app.js"
     },
     "dependencies": {
-        "express": "3.4.0",
+        "date-format-lite": "*",
         "ejs": "*",
-        "whiskers": "*",
-        "mysql": "*"
+        "express": "3.4.0",
+        "markdown": "*",
+        "mysql": "*",
+        "sprint": "*",
+        "whiskers": "*"
     },
       "devDependencies": {
           "grunt": "*",

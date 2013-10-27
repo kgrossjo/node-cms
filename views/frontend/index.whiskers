@@ -1,0 +1,20 @@
+<div class="row">
+    <div class="col-md-12">
+        <div class="topstory">
+            <h3>{topstory.title}</h3>
+            <div class="date">{topstory.formattedDate}</div>
+            <p>{topstory.teaser}</p>
+        </div>
+    </div>
+</div>
+<div class="row">
+    {for headline in headlines}
+        <div class="col-md-6">
+            <div class="headline">
+                <h4>{headline.title}</h4>
+                <div class="date">{topstory.formattedDate}</div>
+                <p>{headline.teaser}</p>
+            </div>
+        </div>
+    {/for}
+</div>
