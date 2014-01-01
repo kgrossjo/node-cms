@@ -25,6 +25,7 @@ app.use(express.methodOverride());
 app.use(express.cookieParser('justLearningNodeJS'));
 app.use(express.session());
 app.use(app.router);
+app.use('/lib/knockout', express.static(path.join(__dirname, 'node_modules/knockout/build/output')));
 app.use(express.static(path.join(__dirname, 'public')));
 
 // development only

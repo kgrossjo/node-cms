@@ -9,6 +9,7 @@
         "date-format-lite": "*",
         "ejs": "*",
         "express": "3.4.0",
+        "knockout": "*",
         "markdown": "*",
         "mysql": "*",
         "sprint": "*",
