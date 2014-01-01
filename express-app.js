@@ -5,10 +5,10 @@
 
 var express = require('express');
 var whiskers = require('whiskers');
-var routes = require('./routes');
-var user = require('./routes/user');
-var article = require('./routes/article');
-var frontend = require('./routes/frontend');
+var routes = require('./routes/express');
+var user = require('./routes/express/user');
+var article = require('./routes/express/article');
+var frontend = require('./routes/express/frontend');
 var rest = require('./routes/rest');
 var http = require('http');
 var path = require('path');
@@ -33,12 +33,13 @@ if ('production' != app.get('env')) {
     app.use(express.errorHandler());
 }
 
-app.get('/', routes.index);
-app.get('/users', user.list);
-app.get('/articles', article.index);
-app.get('/new', article.edit);
-app.get('/edit/:id', article.edit);
-app.post('/save', article.save);
+app.get('/express', routes.index);
+app.get('/express/', routes.index);
+app.get('/express/users', user.list);
+app.get('/express/articles', article.index);
+app.get('/express/new', article.edit);
+app.get('/express/edit/:id', article.edit);
+app.post('/express/save', article.save);
 
 app.get('/frontend', frontend.index);
 

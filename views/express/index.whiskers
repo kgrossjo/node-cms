@@ -1,0 +1,4 @@
+<ul>
+    <li><a href="/express/new">Create new article</a></li>
+    <li><a href="/express/articles">List articles</a></li>
+</ul>

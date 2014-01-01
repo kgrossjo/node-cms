@@ -12,7 +12,7 @@
     {for article in articles}
     <tr>
         <td class="text-right">
-            <a href="/edit/{article.id}">{article.id}</a>
+            <a href="/express/edit/{article.id}">{article.id}</a>
         </td>
         <td>{article.title}</td>
         <td>{article.formattedTimestamp}</td>

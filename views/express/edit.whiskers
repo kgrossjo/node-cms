@@ -3,7 +3,7 @@
     {error}
 </div>
 {/if}
-<form action='/save' method="post" class="form-horizontal" role="form">
+<form action='/express/save' method="post" class="form-horizontal" role="form">
     <input type="hidden" name="id" value="{article.id}"/>
     <dl>
         <dt>Title</dt>
@@ -13,6 +13,6 @@
             <textarea name="body" rows="25" data-provide="markdown">{article.body}</textarea>
         </dd>
         <dt>Action</dt>
-        <dd><button type="submit" class="btn btn-default">Go</button></dd>
+        <dd><button type="submit" class="btn btn-default">Save</button></dd>
     </dl>
 </form>

@@ -1,6 +1,6 @@
 "use strict";
 
-var db = require('../database');
+var db = require('../../database');
 var markdown = require('markdown').markdown;
 require('date-format-lite');
 

@@ -1,4 +1,4 @@
-var db = require('../database');
+var db = require('../../database');
 
 exports.index = function(req, res) {
     db.getArticles(function(err, result) {
@@ -6,10 +6,10 @@ exports.index = function(req, res) {
             "use strict";
             article.formattedTimestamp = (new Date(article.timestamp)).toISOString();
         });
-        res.render('layout.whiskers', {
+        res.render('express/layout.whiskers', {
             title: 'Article List',
             partials: {
-                'body': 'article.whiskers'
+                'body': 'express/article.whiskers'
             },
             error: err,
             articles: result,
@@ -21,10 +21,10 @@ exports.index = function(req, res) {
 exports.edit = function(req, res) {
     var id = req.params.id;
     db.getArticle(id, function(err, article) {
-        res.render('layout.whiskers', {
+        res.render('express/layout.whiskers', {
             title: 'Edit Article',
             partials: {
-                body: 'edit.whiskers'
+                body: 'express/edit.whiskers'
             },
             error: err,
             article: article,
@@ -43,7 +43,7 @@ exports.save = function(req, res) {
         body: article_body,
     };
     db.saveArticle(article, function (err, article) {
-        res.redirect("/edit/" + article.id);
+        res.redirect("/express/edit/" + article.id);
     });
 }
 

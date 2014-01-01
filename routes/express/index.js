@@ -4,11 +4,11 @@
  */
 
 exports.index = function(req, res){
-    res.render('layout.whiskers', {
+    res.render('express/layout.whiskers', {
         title: 'The Simple CMS',
         currenttab: '/',
         partials: {
-            'body': 'index.whiskers'
+            'body': 'express/index.whiskers'
         }
     });
 };
