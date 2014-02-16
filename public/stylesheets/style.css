@@ -1,13 +1,21 @@
 
-body {
+body
+{
     padding: 50px;
     font-family: "Lucida Grande", Helvetica, Arial, sans-serif;
 }
 
-a {
+a
+{
   color: #00B7FF;
 }
 
-.navbar .navbar-nav > .active > a {
+.navbar .navbar-nav > .active > a
+{
   background-color: #f0f0f0;
+}
+
+.clickable-link:hover
+{
+    cursor: hand;
 }

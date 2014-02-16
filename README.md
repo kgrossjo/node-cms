@@ -14,3 +14,6 @@ https://github.com/evilstreak/markdown-js
 
 to-markdown (required by Bootstrap Markdown)
 https://github.com/domchristie/to-markdown
+
+typeahead.js (autocompletion)
+http://twitter.github.io/typeahead.js/releases/latest/typeahead.bundle.js

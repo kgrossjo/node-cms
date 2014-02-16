@@ -59,13 +59,22 @@ exports.getArticlesForFrontpage = function(cb) {
 
 exports.getArticle = function(id, cb) {
     var sql = "SELECT id,title,body FROM articles WHERE id = ?";
+    var tags_sql = "SELECT t.id, t.name, mm.sort FROM tags t, mm_article_tag mm WHERE t.id = mm.tag AND mm.article = ?";
     with_connection(sql, [id], function (err, results) {
         if (err) {
             cb(err);
         } else if (! results || ! results.length) {
             cb(false, null);
         } else {
-            cb(false, results[0]);
+            with_connection(tags_sql, [id], function(err, tag_results) {
+                if (err) {
+                    cb(err);
+                } else {
+                    var article = results[0];
+                    article.tags = tag_results;
+                    cb(false, article);
+                }
+            });
         }
     });
 };
