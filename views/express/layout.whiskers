@@ -14,16 +14,14 @@
     <script src="/javascripts/typeahead.bundle.js"></script>
     <script src="/javascripts/cms.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {>head}
 </head>
 <body>
 
     <nav class="navbar navbar-default" role="navigation">
         <div class="collapse navbar-collapse navbar-ex1-collapse">
             <ul class="nav navbar-nav">
-                <li><a href="/express">Home</a></li>
-                <li><a href="/express/new">Create new article</a></li>
-                <li><a href="/express/articles">List articles</a></li>
-                <li><a href="/frontend">Frontend</a></li>
+                {>navbar}
             </ul>
         </div>
     </nav>

@@ -18,7 +18,9 @@
                 {for tag in article.tags}
                     <li>{tag.name}</li>
                 {/for}
+                <li><input type="text" name="add-tag" class="form-control add-tag"/></li>
             </ul>
+            <button type="button" class="btn" name="new-tag">[+]</button>
         </dd>
         <dt>Action</dt>
         <dd>
@@ -30,3 +32,20 @@
         </dd>
     </dl>
 </form>
+<script type="text/javascript">
+    var tagCompletion = new Bloodhound({
+        name: 'tags',
+        prefetch: '/rest/tags',
+        queryTokenizer: Bloodhound.tokenizers.whitespace,
+        datumTokenizer: function (d) {
+            var s = d.name + " " + d.description;
+            return Bloodhound.tokenizers.whitespace(s);
+        }
+    });
+    tagCompletion.initialize();
+    $('input.add-tag').typeahead(null, {
+        name: 'tags',
+        displayKey: 'name',
+        source: tagCompletion.ttAdapter()
+    });
+</script>

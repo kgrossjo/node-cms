@@ -117,3 +117,9 @@ function save_existing_article(article, cb) {
 }
 
 
+// -- tags --
+
+exports.getAllTags = function(cb) {
+    var sql = "SELECT id, name, description FROM tags ORDER BY name";
+    with_connection(sql, [], cb);
+};

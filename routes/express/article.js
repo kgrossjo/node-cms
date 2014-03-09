@@ -13,10 +13,10 @@ exports.index = function(req, res) {
             },
             error: err,
             articles: result,
-            currenttab: '/articles'
+            currenttab: 'articles'
         });
     });
-}
+};
 
 exports.edit = function(req, res) {
     var id = req.params.id;
@@ -24,11 +24,12 @@ exports.edit = function(req, res) {
         res.render('express/layout.whiskers', {
             title: 'Edit Article',
             partials: {
-                body: 'express/edit.whiskers'
+                head: 'express/edit/header.whiskers',
+                body: 'express/edit/body.whiskers'
             },
             error: err,
             article: article,
-            currenttab: (id ? null : '/new')
+            currenttab: (id ? null : 'new')
         });
     });
 }
