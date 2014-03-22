@@ -11,7 +11,7 @@
     <script src="/javascripts/markdown.js"></script>
     <script src="/javascripts/to-markdown.js"></script>
     <script src="/javascripts/bootstrap-markdown.js"></script>
-    <script src="/javascripts/typeahead.bundle.js"></script>
+    <script src="/lib/typeahead.bundle.js"></script>
     <script src="/javascripts/cms.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     {>head}

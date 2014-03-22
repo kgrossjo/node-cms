@@ -1,3 +1,5 @@
+"use strict";
+
 var mysql = require('mysql');
 var dbconfig = require('./database.json');
 
@@ -7,7 +9,7 @@ var pool = mysql.createPool({
     password: dbconfig.dev.password,
     database: dbconfig.dev.database,
     connectionLimit: 10,
-    supportBigNumbers: true,
+    supportBigNumbers: true
 });
 
 
@@ -95,7 +97,7 @@ function save_new_article(article, cb) {
             cb(err);
         } else {
             article.id = results.insertId;
-            cb(false, article);
+            add_tag_to_article(article, cb);
         }
     }
     with_connection(sql, [article.title, article.body, now()], after_insert);
@@ -106,14 +108,87 @@ function save_existing_article(article, cb) {
     var ts = now();
     console.log("save_existing_article: sql=" + sql);
     console.log("article=" + JSON.stringify(article));
-    function after_insert(err, results) {
+    with_connection(sql, [article.title, article.body, ts, article.id], add_tags);
+    function add_tags(err, results) {
         if (err) {
             cb(err);
         } else {
+            console.log("save article - add tag to article");
+            add_tag_to_article(article, remove_tags);
+            console.log("save article - after add tag to article");
+        }
+    }
+    function remove_tags(err, results) {
+        if (err) {
+            cb(err);
+        } else {
+            console.log("save article - removing tags");
+            remove_tags_from_article(article, cb);
+        }
+    }
+}
+
+function add_tag_to_article(article, cb) {
+    console.log("in add_tag_to_article");
+    if (! article.add_tag) {
+        console.log("no tag to add");
+        cb(false, article);
+        return;
+    }
+    getTagByName(article.add_tag, with_tag);
+    function with_tag(err, tag) {
+        console.log("in with_tag");
+        if (err) {
+            cb(err);
+        } else {
+            console.log("invoking insert into mm_article_tag");
+            var sql = "INSERT INTO mm_article_tag(tag, article, sort) VALUES (?, ?, ?)";
+            with_connection(sql, [tag.id, article.id, 1], after_insert);
+        }
+    }
+    function after_insert(err, results) {
+        console.log("in after_insert");
+        if (err) {
+            cb(err);
+        } else {
+            console.log("invoking callback from after_insert from add_tag_to_article");
             cb(false, article);
         }
     }
-    with_connection(sql, [article.title, article.body, ts, article.id], after_insert);
+}
+
+function remove_tags_from_article(article, cb) {
+    console.log("in remove_tags_from_article");
+    if (! article.remove_tag) {
+        console.log("no tag to remove");
+        cb(false, article);
+        return;
+    }
+    var tag_ids = [];
+    var remove_tag = article.remove_tag;
+    for (var t in remove_tag) {
+        if (remove_tag[t] != 'on') continue;
+        t = t.substr(1);
+        tag_ids.push(t);
+    }
+    return remove_taglist_from_article(tag_ids, article, cb);
+}
+
+function remove_taglist_from_article(tag_ids, article, cb) {
+    if (! tag_ids.length) return cb(false, article);
+    var t = tag_ids.pop();
+    return remove_tag_from_article(t, article.id, remove_rest);
+
+    function remove_rest(err, result) {
+        return remove_taglist_from_article(tag_ids, article, cb);
+    }
+}
+
+
+function remove_tag_from_article(tag_id, article_id, cb) {
+    var sql = "DELETE FROM mm_article_tag WHERE tag = ? AND article = ?";
+    console.log("Removing tag " + tag_id + " from article " + article_id);
+    with_connection(sql, [tag_id, article_id], cb);
 }
 
 
@@ -123,3 +198,62 @@ exports.getAllTags = function(cb) {
     var sql = "SELECT id, name, description FROM tags ORDER BY name";
     with_connection(sql, [], cb);
 };
+
+exports.getTag = function getTag(id, cb) {
+    var sql = "SELECT id, name, description FROM tags WHERE id = ?";
+    with_connection(sql, [id], function(err, results) {
+        if (err) {
+            cb(err);
+        } else if (! results || ! results.length) {
+            cb(false, null);
+        } else {
+            cb(false, results[0]);
+        }
+    })
+};
+
+function getTagByName(name, cb) {
+    var sql = "SELECT id, name, description FROM tags WHERE name = ?";
+    with_connection(sql, [name], function(err, results) {
+        if (err) {
+            cb(err);
+        } else if (! results || ! results.length) {
+            cb(false, null);
+        } else {
+            cb(false, results[0]);
+        }
+    })
+}
+
+exports.saveTag = function(tag, cb) {
+    if (tag.id) {
+        save_existing_tag(tag, cb);
+    } else {
+        save_new_tag(tag, cb);
+    }
+};
+
+function save_new_tag(tag, cb) {
+    var sql = "INSERT INTO tags(id, name, description) values (?, ?, ?)";
+    function after_insert(err, results) {
+        if (err) {
+            cb(err);
+        } else {
+            tag.id = results.insertId;
+            cb(false, tag);
+        }
+    }
+    with_connection(sql, [tag.id, tag.name, tag.description], after_insert);
+}
+
+function save_existing_tag(tag, cb) {
+    var sql = "UPDATE tags SET name=?, description=? WHERE id=?";
+    function after_insert(err, results) {
+        if (err) {
+            cb(err);
+        } else {
+            cb(false, tag);
+        }
+    }
+    with_connection(sql, [tag.name, tag.description, tag.id], after_insert);
+}

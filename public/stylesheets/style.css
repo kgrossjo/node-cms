@@ -19,3 +19,12 @@ a
 {
     cursor: hand;
 }
+
+.tt-dataset-tags
+{
+    margin: 5px;
+    padding: 5px;
+    background-color: white;
+    border: 1px solid #CCC;
+    border-radius: 4px;
+}

@@ -30,6 +30,7 @@ app.use(express.cookieParser('justLearningNodeJS'));
 app.use(express.session());
 app.use(app.router);
 app.use(express.static(path.join(__dirname, 'public')));
+app.use('/lib', express.static(path.join(__dirname, 'node_modules/typeahead.js/dist')));
 
 // development only
 if ('production' != app.get('env')) {
@@ -44,6 +45,9 @@ app.get('/express/new', article.edit);
 app.get('/express/edit/:id', article.edit);
 app.post('/express/save', article.save);
 app.get('/express/tags', tag.index);
+app.get('/express/tag/new', tag.edit);
+app.get('/express/tag/:id', tag.edit);
+app.post('/express/tag/save', tag.save);
 
 app.get('/frontend', frontend.index);
 

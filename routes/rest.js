@@ -28,7 +28,6 @@ exports.saveArticle = function(req, res) {
 exports.getAllTags = function(req, res) {
     db.getAllTags(function(err, tags) {
         if (err) res.send({ type: "error", error: err});
-        console.log("*** " + JSON.stringify(tags));
         res.send(tags);
     });
 };

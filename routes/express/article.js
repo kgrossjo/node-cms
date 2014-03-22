@@ -32,19 +32,23 @@ exports.edit = function(req, res) {
             currenttab: (id ? null : 'new')
         });
     });
-}
+};
 
 exports.save = function(req, res) {
-    var article_id = req.body.id;
-    var article_title = req.body.title;
-    var article_body = req.body.body;
+    console.log("<<<");
+    console.log(req.body);
+    console.log(">>>");
+    console.log("Adding tag: " + req.body.add_tag);
     var article = {
-        id: article_id,
-        title: article_title,
-        body: article_body,
+        id: req.body.id,
+        title: req.body.title,
+        body: req.body.body,
+        add_tag: req.body.add_tag,
+        remove_tag: req.body.remove_tag
     };
     db.saveArticle(article, function (err, article) {
         res.redirect("/express/edit/" + article.id);
     });
-}
+};
+
 

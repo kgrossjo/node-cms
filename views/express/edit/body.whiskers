@@ -14,12 +14,18 @@
         </dd>
         <dt>Tags</dt>
         <dd>
-            <ul>
+            <table class="table">
                 {for tag in article.tags}
-                    <li>{tag.name}</li>
+                    <tr>
+                        <td><input type="checkbox" name="remove_tag[x{tag.id}]" class="form-control remove-tag" /></td>
+                        <td>{tag.name}</td>
+                    </tr>
                 {/for}
-                <li><input type="text" name="add-tag" class="form-control add-tag"/></li>
-            </ul>
+                <tr>
+                    <td><span>[+]</span></td>
+                    <td><input type="text" name="add_tag" class="form-control add-tag"/></td>
+                </tr>
+            </table>
             <button type="button" class="btn" name="new-tag">[+]</button>
         </dd>
         <dt>Action</dt>
@@ -35,7 +41,10 @@
 <script type="text/javascript">
     var tagCompletion = new Bloodhound({
         name: 'tags',
-        prefetch: '/rest/tags',
+        prefetch: {
+            url: '/rest/tags',
+            ttl: 10
+        },
         queryTokenizer: Bloodhound.tokenizers.whitespace,
         datumTokenizer: function (d) {
             var s = d.name + " " + d.description;
@@ -43,6 +52,7 @@
         }
     });
     tagCompletion.initialize();
+    tagCompletion.clearPrefetchCache();
     $('input.add-tag').typeahead(null, {
         name: 'tags',
         displayKey: 'name',
