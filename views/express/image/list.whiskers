@@ -1,0 +1,19 @@
+{if error}
+    <div class="error">
+        {error}
+    </div>
+{/if}
+<table class="table table-hover">
+    <tr>
+        <th class="text-right">ID</th>
+        <th>File</th>
+    </tr>
+    {for image in images}
+        <tr class="clickable-link" href="/express/image/edit/{image.id}">
+            <td class="text-right">
+                <a href="/express/image/edit/{image.id}">{image.id}</a>
+            </td>
+            <td>{image.filename}</td>
+        </tr>
+    {/for}
+</table>

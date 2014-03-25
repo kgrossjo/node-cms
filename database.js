@@ -44,6 +44,10 @@ function now() {
     return (new Date()).getTime();
 }
 
+// ------------------------------------------------------------
+// -- articles --
+// ------------------------------------------------------------
+
 // cb - function(is_err, results)
 //      if is_err is true, then the second argument is ignored
 //      if is_err is false, then the second argument is the list of results.
@@ -192,7 +196,9 @@ function remove_tag_from_article(tag_id, article_id, cb) {
 }
 
 
+// ------------------------------------------------------------
 // -- tags --
+// ------------------------------------------------------------
 
 exports.getAllTags = function(cb) {
     var sql = "SELECT id, name, description FROM tags ORDER BY name";
@@ -257,3 +263,15 @@ function save_existing_tag(tag, cb) {
     }
     with_connection(sql, [tag.name, tag.description, tag.id], after_insert);
 }
+
+// ------------------------------------------------------------
+// -- images --
+// ------------------------------------------------------------
+
+// cb - function(is_err, results)
+//      If is_err is true, then the second argument is ignored
+//      If is_err is false, then the second argument is the list of results.
+exports.getImages = function (cb) {
+    var sql = "SELECT id,filename FROM images ORDER BY id DESC";
+    with_connection(sql, [], cb);
+};

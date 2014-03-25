@@ -4,11 +4,11 @@
  */
 
 var express = require('express');
-var whiskers = require('whiskers');
 var routes = require('./routes/express');
 var user = require('./routes/express/user');
 var article = require('./routes/express/article');
 var tag = require('./routes/express/tag');
+var image = require('./routes/express/image');
 var frontend = require('./routes/express/frontend');
 var rest = require('./routes/rest');
 var http = require('http');
@@ -48,6 +48,8 @@ app.get('/express/tags', tag.index);
 app.get('/express/tag/new', tag.edit);
 app.get('/express/tag/:id', tag.edit);
 app.post('/express/tag/save', tag.save);
+
+app.get('/express/image/list', image.index);
 
 app.get('/frontend', frontend.index);
 

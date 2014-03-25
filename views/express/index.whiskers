@@ -3,5 +3,7 @@
     <li><a href="/express/articles">List articles</a></li>
     <li><a href="/express/tags">List tags</a></li>
     <li><a href="/express/tag/new">Create tag</a></li>
+    <li><a href="/express/image/list">List images</a></li>
+    <li><a href="/express/image/new">Create image</a></li>
     <li><a href="/frontend">Frontend</a></li>
 </ul>
